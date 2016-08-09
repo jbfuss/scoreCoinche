@@ -37,10 +37,17 @@
     border-top: 1px #DDD solid;
 }
 #newRoundBtn{
+    width: 70%;
+    z-index: 1;
+    margin: auto;
+    margin-bottom: 5px;
+    border-radius: 0px;
+
+}
+#newRoundBtnContainer{
 	position: absolute;
-	width: 100%;
-	bottom: 0;
-	z-index: 1;
+    bottom: 0;
+    width:100%;
 }
 #selectNewRound{
 	background: none;
