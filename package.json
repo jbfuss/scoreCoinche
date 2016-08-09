@@ -1,0 +1,22 @@
+{
+  "name": "score_coinche",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jbfuss/scoreCoinche.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jbfuss/scoreCoinche/issues"
+  },
+  "homepage": "https://github.com/jbfuss/scoreCoinche#readme",
+  "dependencies": {
+    "angular-pageslide-directive": "^2.1.0"
+  }
+}
