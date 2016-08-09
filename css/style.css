@@ -1,0 +1,96 @@
+.scores{
+	margin: auto;
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.total{
+	display: inline-block;
+	width:30%;
+	background-color: #eee;
+	height: 150px;
+}
+
+.score{
+	padding: 15px;
+    font-size: 35px;
+    margin: 10px;
+    color:white;
+}
+
+.score.red{
+	background: #d9534f;
+}
+
+.score.green{
+	background: #5cb85c;
+}
+
+#roundForm{
+	position: absolute;
+	background: white;
+    bottom:0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 2;
+    border-top: 1px #DDD solid;
+}
+#newRoundBtn{
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+	z-index: 1;
+}
+#selectNewRound{
+	background: none;
+    border: none;
+    width: 15%;
+    font-size: 16px;
+    display: inline-block;
+    padding: 10px;
+    box-shadow: none !important;
+}
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    box-shadow: none !important;
+}
+#selectNewRound option{
+	height: 30px;
+}
+.optionSuit{
+    background-size: 20px;
+    background-position: 20%;
+    background-repeat: no-repeat;
+    
+}
+.optionSuit.pique{
+	background-image: url(../img/pique.png);
+}
+.optionSuit.carreau{
+	background-image: url(../img/carreau.png);
+}
+.optionSuit.coeur{
+	background-image: url(../img/coeur.png);
+}
+.optionSuit.trefle{
+	background-image: url(../img/trefle.png);
+}
+.right{
+	float: right;
+}
+.left{
+	float: left;
+}
+#roundForm .buttons{
+	height: 40px;
+    font-size: 16px;
+    padding: 5px;
+    background: #337ab7;
+    margin-bottom: 10px;
+}
+#roundForm .buttons a{
+	color:white;
+}
