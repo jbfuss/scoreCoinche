@@ -14,126 +14,189 @@
   </head>
   <body>
   	<div ng-controller="myController">
-<a ng-click="tableOpen = !tableOpen" type="button">...</a>
-	    <pageslide ps-open="tableOpen">
-            <div class="table-responsive"> 
-				<table class="table table-bordered table-striped">
-					<thead> 
-						<tr> 
-							<th> 
-								Preneur
-							</th> 
-							<th> 
-								Contrat
-							</th> 
-							<th> 
-								Points
-							</th> 
-							<th> 
-								Issue
-							</th> 
-							<th>
-								Marque
-							</th>
-						</tr> 
-					</thead> 
-					<tbody> 
-						<tr> 
-							<td class="text-nowrap" scope="row">
-								Nous
-							</td>
-							<td>
-								90 - Pique
-							</td> 
-							<td>
-								113 - 69
-							</td> 
-							<td>
-								Fait
-							</td>
-							<td>
-								20 -242
-							</td>
-						</tr> 
-						<tr> 
-							<td class="text-nowrap" scope="row">
-								Nous
-							</td>
-							<td>
-								90 - Pique
-							</td> 
-							<td>
-								113 - 69
-							</td> 
-							<td>
-								Fait
-							</td>
-							<td>
-								20 -242
-							</td>
-						</tr> 
-					</tbody> 
-				</table> 
+  		<div id="details-screen" ng-show="!addScoreOpen">
+			<a ng-click="tableOpen = !tableOpen" type="button">...</a>
+			<div ng-include="template.url"></div>
+		    <pageslide ps-open="tableOpen">
+	            <div class="table-responsive"> 
+					<table class="table table-bordered table-striped">
+						<thead> 
+							<tr> 
+								<th> 
+									Preneur
+								</th> 
+								<th> 
+									Contrat
+								</th> 
+								<th> 
+									Points
+								</th> 
+								<th> 
+									Issue
+								</th> 
+								<th>
+									Marque
+								</th>
+							</tr> 
+						</thead> 
+						<tbody> 
+							<tr> 
+								<td class="text-nowrap" scope="row">
+									Nous
+								</td>
+								<td>
+									90 - Pique
+								</td> 
+								<td>
+									113 - 69
+								</td> 
+								<td>
+									Fait
+								</td>
+								<td>
+									20 -242
+								</td>
+							</tr> 
+							<tr> 
+								<td class="text-nowrap" scope="row">
+									Nous
+								</td>
+								<td>
+									90 - Pique
+								</td> 
+								<td>
+									113 - 69
+								</td> 
+								<td>
+									Fait
+								</td>
+								<td>
+									20 -242
+								</td>
+							</tr> 
+						</tbody> 
+					</table> 
+				</div>
+		    </pageslide>
+			
+			<div class="scores">
+				<div class="total nous">
+					<h4> Nous </h4>
+					<div class="score red"><span>300</span></div>
+				</div>
+				<div class="total eux">
+					<h4> Eux </h4>
+					<div class="score green"><span>513</span></div>
+				</div>
 			</div>
-	    </pageslide>
-		
-		<div class="scores">
-			<div class="total nous">
-				<h4> Nous </h4>
-				<div class="score red"><span>300</span></div>
-			</div>
-			<div class="total eux">
-				<h4> Eux </h4>
-				<div class="score green"><span>513</span></div>
-			</div>
-		</div>
 
-		<div id="newRoundBtnContainer" class="center-block">
-			<button id="newRoundBtn" ng-click="newRoundOpen = !newRoundOpen" type="button" class="btn btn-primary btn-lg btn-block">Nouvelle manche</button> 
+			<div id="newRoundBtnContainer" class="center-block">
+				<button id="newRoundBtn" ng-click="newRoundOpen = !newRoundOpen" type="button" class="btn btn-primary btn-lg btn-block">Nouvelle manche</button> 
+			</div>
+			<div ng-show="newRoundOpen" id="roundForm">
+				<div class="buttons">
+					<a id="closeRoundBtn" ng-click="newRoundOpen = !newRoundOpen" type="button" class="left">Annuler</a> 
+					<a id="closeRoundBtn" ng-click="newRoundOpen = !newRoundOpen" type="button">Passe</a> 
+					<a id="closeRoundBtn" ng-click="addScoreOpen = !addScoreOpen" type="button" class="right">Ok</a> 
+				</div>
+				<div class="selectContainer">
+					<form>
+						<select id="selectNewRound" class="form-control" size="4" style="width:20%">
+						  <option>Nous</option>
+						  <option>Vous</option>
+						</select>
+						<select id="selectNewRound" class="form-control" size="4" style="width:20%">
+						  <option>80</option>
+						  <option>90</option>
+						  <option>100</option>
+						  <option>110</option>
+						  <option>120</option>
+						  <option>130</option>
+						  <option>140</option>
+						  <option>150</option>
+						  <option>160</option>
+						  <option>170</option>
+						  <option>180</option>
+						  <option>Capot</option>
+						  <option>Générale</option>
+						</select>
+						<select id="selectNewRound" class="form-control" size="4" style="width:20%">
+						  <option value="1" class="optionSuit pique"></option>
+						  <option value="2" class="optionSuit coeur"></option>
+						  <option value="3" class="optionSuit trefle"></option>
+						  <option value="4" class="optionSuit carreau"></option>
+						</select>
+						<select id="selectNewRound" class="form-control" size="4" style="width:35%">
+						  <option></option>
+						  <option>Coinché</option>
+						  <option>Surcoinché</option>
+						</select>
+					</form>
+				</div>
+			</div>
 		</div>
-		<button ng-click="chiliSpicy()">Chili</button>
-		<button ng-click="jalapenoSpicy()">Jalapeño</button>
-		<p>The food is {{greeting}} spicy!</p>
-		<div ng-show="newRoundOpen" id="roundForm">
-			<div class="buttons">
-				<a id="closeRoundBtn" ng-click="newRoundOpen = !newRoundOpen" type="button" class="left">Annuler</a> 
-				<a id="closeRoundBtn" ng-click="newRoundOpen = !newRoundOpen" type="button">Passe</a> 
-				<a id="closeRoundBtn" ng-click="newRoundOpen = !newRoundOpen" type="button" class="right">Ok</a> 
+		<div ng-show="addScoreOpen" id="scoreForm">
+			
+			<div id="scoreScreen">
+				<div class="row header">
+					<div class="col-xs-6 col-sm-6 text-left">
+				    	<a ng-click="addScoreOpen = !addScoreOpen">Annuler</a>
+			    	</div>
+			    	<div class="col-xs-6 col-sm-6 text-right">
+				    	<a ng-click="validateScore()">Valider</a>
+			    	</div>
+				</div>
+				<div id="teamSelection" class="text-center">
+					<form>
+						<button class="btn btn-default btn-lg" type="button">Nous</button>
+						<button class="btn btn-default btn-lg" type="button">Eux</button>
+					</form>
+				</div>
+				<span id="scoreValue">{{score.value}}</span>
 			</div>
-			<div class="selectContainer">
-				<form>
-					<select id="selectNewRound" class="form-control" size="4" style="width:20%">
-					  <option>Nous</option>
-					  <option>Vous</option>
-					</select>
-					<select id="selectNewRound" class="form-control" size="4" style="width:20%">
-					  <option>80</option>
-					  <option>90</option>
-					  <option>100</option>
-					  <option>110</option>
-					  <option>120</option>
-					  <option>130</option>
-					  <option>140</option>
-					  <option>150</option>
-					  <option>160</option>
-					  <option>170</option>
-					  <option>180</option>
-					  <option>Capot</option>
-					  <option>Générale</option>
-					</select>
-					<select id="selectNewRound" class="form-control" size="4" style="width:20%">
-					  <option value="1" class="optionSuit pique"></option>
-					  <option value="2" class="optionSuit coeur"></option>
-					  <option value="3" class="optionSuit trefle"></option>
-					  <option value="4" class="optionSuit carreau"></option>
-					</select>
-					<select id="selectNewRound" class="form-control" size="4" style="width:35%">
-					  <option></option>
-					  <option>Coinché</option>
-					  <option>Surcoinché</option>
-					</select>
-				</form>
-			</div>
+			<div id="keyboard">
+				<div class="row">
+					<div class="col-xs-12 col-sm-12"><div class="padding-15 text-center">80 Pique</div></div>
+					<div class="col-xs-6 col-sm-6"><button class="btn btn-default btn-lg" type="button">Belote Nous</button></div>
+					<div class="col-xs-6 col-sm-6"><button class="btn btn-default btn-lg" type="button">Belote Eux</button></div>
+				    <div class="col-xs-4 col-sm-4">
+				    	<button class="btn btn-default btn-lg" type="button" ng-click="changeScoreValue(1)">1</button>
+			    	</div>
+				    <div class="col-xs-4 col-sm-4">
+				    	<button class="btn btn-default btn-lg" type="button"  ng-click="changeScoreValue(2)">2</button>
+			    	</div>
+				    <div class="col-xs-4 col-sm-4">
+				    	<button class="btn btn-default btn-lg" type="button"  ng-click="changeScoreValue(3)">3</button>
+			    	</div>
+				    <div class="col-xs-4 col-sm-4">
+				    	<button class="btn btn-default btn-lg" type="button" ng-click="changeScoreValue(4)">4</button>
+			    	</div>
+				    <div class="col-xs-4 col-sm-4">
+				    	<button class="btn btn-default btn-lg" type="button" ng-click="changeScoreValue(5)">5</button>
+			    	</div>
+  				    <div class="col-xs-4 col-sm-4">
+  				    	<button class="btn btn-default btn-lg" type="button" ng-click="changeScoreValue(6)">6</button>
+			    	</div>
+  				    <div class="col-xs-4 col-sm-4">
+  				    	<button class="btn btn-default btn-lg" type="button" ng-click="changeScoreValue(7)">7</button>
+			    	</div>
+  				    <div class="col-xs-4 col-sm-4">
+  				    	<button class="btn btn-default btn-lg" type="button" ng-click="changeScoreValue(8)">8</button>
+			    	</div>
+  				    <div class="col-xs-4 col-sm-4">
+  				    	<button class="btn btn-default btn-lg" type="button" ng-click="changeScoreValue(9)">9</button>
+			    	</div>
+  				    <div class="col-xs-4 col-sm-4">
+  				    	<button class="btn btn-default btn-lg" type="button" ng-click="changeScoreByCapot()">Capot</button>
+			    	</div>
+  				    <div class="col-xs-4 col-sm-4">
+  				    	<button class="btn btn-default btn-lg" type="button" ng-click="changeScoreValue(0)">0</button>
+			    	</div>
+  				    <div class="col-xs-4 col-sm-4">
+  				    	<button class="btn btn-default btn-lg" type="button" ng-click="deleteScore(0)">Effacer</button>
+			    	</div>
+				</div>
+			<div>
 		</div>
 	</div>
 	 

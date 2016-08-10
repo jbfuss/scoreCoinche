@@ -104,3 +104,49 @@ textarea:focus {
 pageslide{
 	background: white
 }
+#keyboard button.btn.btn-lg{
+    width: 100%;
+    border-radius: 0;
+    padding:14px 16px;
+}
+#keyboard .row .col-xs-4.col-sm-4,#keyboard .row .col-xs-6.col-sm-6{
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.padding-15{
+    padding: 15px;
+}
+#scoreForm{
+    background: #333;
+    height: 100%
+}
+#keyboard{
+    position: absolute;
+    bottom:0;
+    background: white;
+}
+#scoreScreen{
+    position: relative;
+    height:44%;
+    background: #333;
+    color:white;
+}
+#scoreScreen #scoreValue{
+    position: absolute;
+    bottom: 0;
+    right: 20px;
+    font-size: 60px;
+}
+#teamSelection{
+    padding-top: 15px;
+}
+#teamSelection button.btn.btn-lg{
+    width:25%;
+    border-radius: 0;
+    margin:0;
+}
+.header{
+    background: white;
+    padding: 15px;
+}
