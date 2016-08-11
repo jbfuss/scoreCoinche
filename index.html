@@ -22,58 +22,24 @@
 					<table class="table table-bordered table-striped">
 						<thead> 
 							<tr> 
-								<th> 
-									Preneur
-								</th> 
-								<th> 
-									Contrat
-								</th> 
-								<th> 
-									Points
-								</th> 
-								<th> 
-									Issue
-								</th> 
-								<th>
-									Marque
-								</th>
+								<th> Contrat </th> 
+								<th> Nous </th> 
+								<th> Vous </th>
 							</tr> 
 						</thead> 
 						<tbody> 
-							<tr> 
-								<td class="text-nowrap" scope="row">
-									Nous
+							<tr ng-repeat="round in rounds"> 
+								<td>
+									{{round.owner}} - {{round.contrat}} <span class="optionSuit {{round.suit}}"> {{round.coinche}}
 								</td>
 								<td>
-									90 - Pique
-								</td> 
-								<td>
-									113 - 69
-								</td> 
-								<td>
-									Fait
+									{{round.pointNous}}
 								</td>
 								<td>
-									20 -242
+									{{round.pointEux}}
 								</td>
 							</tr> 
-							<tr> 
-								<td class="text-nowrap" scope="row">
-									Nous
-								</td>
-								<td>
-									90 - Pique
-								</td> 
-								<td>
-									113 - 69
-								</td> 
-								<td>
-									Fait
-								</td>
-								<td>
-									20 -242
-								</td>
-							</tr> 
+				
 						</tbody> 
 					</table> 
 				</div>
@@ -82,11 +48,15 @@
 			<div class="scores">
 				<div class="total nous">
 					<h4> Nous </h4>
-					<div class="score red"><span>300</span></div>
+					<div ng-class="{green: getTotal('nous')>=getTotal('vous'),red:getTotal('nous')<getTotal('vous')}" class="score">
+						<span>{{getTotal('nous')}}</span>
+					</div>
 				</div>
 				<div class="total eux">
 					<h4> Eux </h4>
-					<div class="score green"><span>513</span></div>
+					<div ng-class="{green: getTotal('vous')>=getTotal('nous'),red:getTotal('vous')<getTotal('nous')}" class="score green">
+						<span>{{getTotal('vous')}}</span>
+					</div>
 				</div>
 			</div>
 
@@ -101,11 +71,11 @@
 				</div>
 				<div class="selectContainer">
 					<form>
-						<select id="selectNewRound" class="form-control" size="4" style="width:20%">
-						  <option>Nous</option>
-						  <option>Vous</option>
+						<select ng-model="newRound.owner" id="selectNewRound" class="form-control" size="2" style="width:20%">
+						  <option value="nous">Nous</option>
+						  <option value="vous">Eux</option>
 						</select>
-						<select id="selectNewRound" class="form-control" size="4" style="width:20%">
+						<select ng-model="newRound.point" id="selectNewRound" class="form-control" size="7" style="width:25%">
 						  <option>80</option>
 						  <option>90</option>
 						  <option>100</option>
@@ -117,19 +87,18 @@
 						  <option>160</option>
 						  <option>170</option>
 						  <option>180</option>
-						  <option>Capot</option>
-						  <option>Générale</option>
+						  <option value="250">Capot</option>
 						</select>
-						<select id="selectNewRound" class="form-control" size="4" style="width:20%">
-						  <option value="1" class="optionSuit pique"></option>
-						  <option value="2" class="optionSuit coeur"></option>
-						  <option value="3" class="optionSuit trefle"></option>
-						  <option value="4" class="optionSuit carreau"></option>
+						<select ng-model="newRound.suit" id="selectNewRound" class="form-control" size="4" style="width:15%">
+						  <option value="pique" class="optionSuit pique"></option>
+						  <option value="coeur" class="optionSuit coeur"></option>
+						  <option value="trefle" class="optionSuit trefle"></option>
+						  <option value="carreau" class="optionSuit carreau"></option>
 						</select>
-						<select id="selectNewRound" class="form-control" size="4" style="width:35%">
+						<select ng-model="newRound.coinche" id="selectNewRound" class="form-control" size="3" style="width:35%">
 						  <option></option>
-						  <option>Coinché</option>
-						  <option>Surcoinché</option>
+						  <option value="coinche">Coinché</option>
+						  <option value="surcoinche">Surcoinché</option>
 						</select>
 					</form>
 				</div>
@@ -148,17 +117,35 @@
 				</div>
 				<div id="teamSelection" class="text-center">
 					<form>
-						<button class="btn btn-default btn-lg" type="button">Nous</button>
-						<button class="btn btn-default btn-lg" type="button">Eux</button>
+						<button ng-class="{selected: score.owner=='nous'}" ng-click="score.owner = 'nous'" 
+							class="btn btn-default btn-lg" type="button">		
+							Nous
+						</button>
+						<button ng-class="{'selected': score.owner=='vous'}" ng-click="score.owner = 'vous'"
+						 class="btn btn-default btn-lg" type="button">Eux</button>
 					</form>
 				</div>
 				<span id="scoreValue">{{score.value}}</span>
 			</div>
 			<div id="keyboard">
 				<div class="row">
-					<div class="col-xs-12 col-sm-12"><div class="padding-15 text-center">80 Pique</div></div>
-					<div class="col-xs-6 col-sm-6"><button class="btn btn-default btn-lg" type="button">Belote Nous</button></div>
-					<div class="col-xs-6 col-sm-6"><button class="btn btn-default btn-lg" type="button">Belote Eux</button></div>
+					<div class="col-xs-12 col-sm-12">
+						<div class="padding-15 text-center">
+							{{newRound.owner}} - {{newRound.point}}  <span class="optionSuit {{newRound.suit}}"> </span>  {{newRound.coinche}}
+						</div>
+					</div>
+					<div class="col-xs-6 col-sm-6">
+						<button class="btn btn-default btn-lg" ng-class="{'selected': score.belote=='nous'}" 
+						ng-click="(score.belote == 'nous') ? score.belote = '' : score.belote = 'nous'" type="button">
+							Belote Nous
+						</button>
+					</div>
+					<div class="col-xs-6 col-sm-6">
+						<button class="btn btn-default btn-lg" ng-class="{'selected': score.belote=='vous'}" 
+						ng-click="(score.belote == 'vous') ? score.belote = '' : score.belote = 'vous'" type="button">
+							Belote Eux
+						</button>
+					</div>
 				    <div class="col-xs-4 col-sm-4">
 				    	<button class="btn btn-default btn-lg" type="button" ng-click="changeScoreValue(1)">1</button>
 			    	</div>
