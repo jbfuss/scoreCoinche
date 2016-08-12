@@ -44,7 +44,6 @@ myApp.controller('myController', ['$scope','localStorageService',  function($sco
 			$scope.updateRoundIndex = roundIndex;
 			var round = $scope.rounds[roundIndex];
 			$scope.newRound =  { owner:round.owner, point:round.contrat, suit:round.suit, coinche:round.coinche};
-			console.log($scope.newRound);
 			$scope.addScoreOpen=true;
 			$scope.tableOpen = false;
 		} 
@@ -129,7 +128,8 @@ myApp.controller('myController', ['$scope','localStorageService',  function($sco
 		if($scope.score.belote=='nous'){
 			pointNous+=20;
 			beloteNous = 20;
-		}else{
+		}
+		if($scope.score.belote=='eux'){
 			pointEux+=20;
 			beloteEux = 20;
 		}
@@ -147,7 +147,7 @@ myApp.controller('myController', ['$scope','localStorageService',  function($sco
 				}
 				
 			}
-			
+
 
 		}else{
 			//Check capot
@@ -163,7 +163,7 @@ myApp.controller('myController', ['$scope','localStorageService',  function($sco
 				
 			}
 		}
-
+		
 		//match with contract
 		if($scope.newRound.owner=="nous"){
 			if(pointNous>=contrat && pointNous>=pointEux){
