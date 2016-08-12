@@ -9,7 +9,8 @@
 	<meta name="viewport" content="width=device-width, user-scalable=no">
 	
 	<script src="node_modules/angular/angular.js"></script>
-<script src="node_modules/angular-pageslide-directive/dist/angular-pageslide-directive.js"></script>
+	<script src="node_modules/angular-pageslide-directive/dist/angular-pageslide-directive.js"></script>
+	<script src="node_modules/angular-local-storage/dist/angular-local-storage.min.js"></script>
 	<script src="js/app.js"></script>
   </head>
   <body>
@@ -17,21 +18,24 @@
 
   		<div id="details-screen" ng-show="!addScoreOpen">
 			<a ng-click="tableOpen = !tableOpen" type="button" class="openPanelBTN">...</a>
-			<div ng-include="template.url"></div>
+		<!--	<div ng-include="template.url"></div> !-->
 		    <pageslide ps-open="tableOpen">
 	            <div class="table-responsive"> 
 					<table class="table table-striped">
 						<thead> 
 							<tr> 
+								<th></th>
 								<th> Contrat </th> 
 								<th> Nous </th> 
-								<th> Vous </th>
+								<th> Eux </th>
 							</tr> 
 						</thead> 
 						<tbody> 
-							<tr ng-repeat="round in rounds"> 
+							<tr ng-repeat="round in rounds" ng-click="updateRound($index)"> 
+								<td class="numRound"><b>{{$index+1}}</b></td>
 								<td>
-									{{round.owner}} - {{round.contrat}} <span class="optionSuit {{round.suit}}"> {{round.coinche}}
+									{{round.owner}} - {{round.contrat}} <img src="img/{{round.suit}}.png">
+									<div>{{round.coinche}}</div>
 								</td>
 								<td>
 									{{round.pointNous}}
@@ -49,40 +53,41 @@
 			<div class="scores">
 				<div class="total nous">
 					<h4> Nous </h4>
-					<div ng-class="{green: getTotal('nous')>=getTotal('vous'),red:getTotal('nous')<getTotal('vous')}" class="score">
+					<div ng-class="{green: getTotal('nous')>=getTotal('eux'),red:getTotal('nous')<getTotal('eux')}" class="score">
 						<span>{{getTotal('nous')}}</span>
 					</div>
 				</div>
 				<div class="total eux">
 					<h4> Eux </h4>
-					<div ng-class="{green: getTotal('vous')>=getTotal('nous'),red:getTotal('vous')<getTotal('nous')}" class="score green">
-						<span>{{getTotal('vous')}}</span>
+					<div ng-class="{green: getTotal('eux')>=getTotal('nous'),red:getTotal('eux')<getTotal('nous')}" class="score">
+						<span>{{getTotal('eux')}}</span>
 					</div>
 				</div>
 			</div>
 
 			<div class="turn">
-				<div class="north"><span>Nord</span></div>
-				<div class="west"><span>Ouest</span></div>
+				<div class="north"><span>Nord</span><span ng-show="turn==2" class="puce"></span></div>
+				<div class="west"><span>Ouest</span><span ng-show="turn==1" class="puce"></span></div>
 				<div class="center"><img src="img/refresh.png"/></div>
-				<div class="est"><span>Est</span></div>
-				<div class="sud"><span>Sud <br/>(Moi)</span><span class="puce"></span></div>
+				<div class="est"><span>Est</span><span ng-show="turn==3" class="puce"></span></div>
+				<div class="sud"><span>Sud <br/>(Moi)</span><span ng-show="turn==0" class="puce"></span></div>
 			</div>
 
 			<div id="newRoundBtnContainer" class="center-block">
 				<button id="newRoundBtn" ng-click="newRoundOpen = !newRoundOpen" type="button" class="btn btn-primary btn-lg btn-block">Nouvelle manche</button> 
+				<button id="newRoundBtn" ng-click="newGame()" type="button" class="btn btn-danger btn-lg btn-block">Nouvelle partie</button> 
 			</div>
 			<div ng-show="newRoundOpen" id="roundForm">
 				<div class="buttons">
 					<a id="closeRoundBtn" ng-click="newRoundOpen = !newRoundOpen" type="button" class="left">Annuler</a> 
-					<a id="closeRoundBtn" ng-click="newRoundOpen = !newRoundOpen" type="button">Passe</a> 
+					<a id="closeRoundBtn" ng-click="passe()" type="button">Passe</a> 
 					<a id="closeRoundBtn" ng-click="addScoreOpen = !addScoreOpen" type="button" class="right">Ok</a> 
 				</div>
 				<div class="selectContainer">
 					<form>
 						<select ng-model="newRound.owner" id="selectNewRound" class="form-control" size="2" style="width:20%">
 						  <option value="nous">Nous</option>
-						  <option value="vous">Eux</option>
+						  <option value="eux">Eux</option>
 						</select>
 						<select ng-model="newRound.point" id="selectNewRound" class="form-control" size="7" style="width:20%">
 						  <option>80</option>
@@ -118,7 +123,7 @@
 			<div id="scoreScreen">
 				<div class="row header">
 					<div class="col-xs-6 col-sm-6 text-left">
-				    	<a ng-click="addScoreOpen = !addScoreOpen">Annuler</a>
+				    	<a ng-click="initRound()">Annuler</a>
 			    	</div>
 			    	<div class="col-xs-6 col-sm-6 text-right">
 				    	<a ng-click="validateScore()">Valider</a>
@@ -130,7 +135,7 @@
 							class="btn btn-default btn-lg" type="button">		
 							Nous
 						</button>
-						<button ng-class="{'selected': score.owner=='vous'}" ng-click="score.owner = 'vous'"
+						<button ng-class="{'selected': score.owner=='eux'}" ng-click="score.owner = 'eux'"
 						 class="btn btn-default btn-lg" type="button">Eux</button>
 					</form>
 				</div>
@@ -150,8 +155,8 @@
 						</button>
 					</div>
 					<div class="col-xs-6 col-sm-6">
-						<button class="btn btn-default btn-lg" ng-class="{'selected': score.belote=='vous'}" 
-						ng-click="(score.belote == 'vous') ? score.belote = '' : score.belote = 'vous'" type="button">
+						<button class="btn btn-default btn-lg" ng-class="{'selected': score.belote=='eux'}" 
+						ng-click="(score.belote == 'eux') ? score.belote = '' : score.belote = 'eux'" type="button">
 							Belote Eux
 						</button>
 					</div>

@@ -9,13 +9,26 @@
 	width:45%;
 	background-color: #eee;
 }
+div.table-responsive{
+    display: block;
+    height: 100%;
+    overflow: scroll;
+}
 .table{
     text-align: center;
+}
+.numRound{
+    font-size: 13px;
+   border-right: 1px solid #ddd;
 }
 .table.table-striped thead tr th {
     border: none;
     font-size: 12px;
     text-align: center;
+}
+.table img{
+    width: 15px;
+    vertical-align: top;
 }
 .score{
     padding: 15px;
@@ -199,6 +212,10 @@ button.btn.btn-lg.selected{
 .header{
     background: white;
     padding: 15px;
+}
+.turn {
+    margin: 20px 10%;
+    background: #eee;
 }
 .turn div{
     text-align: center;

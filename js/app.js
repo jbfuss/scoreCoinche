@@ -1,26 +1,92 @@
 
-var myApp = angular.module('myApp',["pageslide-directive"]);//creating app
+var myApp = angular.module('myApp',["pageslide-directive",'LocalStorageModule']);//creating app
 
-myApp.controller('myController', ['$scope', function($scope) { // creating controller
-  	$scope.newRoundOpen = false;
-  	$scope.tableOpen = false;
-  	$scope.addcSoreOpen=false;
-  	$scope.rounds=[];
-  	$scope.newRound =  { owner:'nous', point:'80', suit:'pique', coinche:''};
-  	$scope.template = { name: 'template2.html', url: 'template/score.html'};
-	$scope.score = { owner:'nous', value: '0',belote:''};
+
+myApp.config(function (localStorageServiceProvider) {
+  localStorageServiceProvider.setPrefix('scoreCoinche');
+});
+
+myApp.controller('myController', ['$scope','localStorageService',  function($scope,localStorageService) { // creating controller
+  	//$scope.template = { name: 'template2.html', url: 'template/score.html'};
+
+	var initGame = function(){
+		if(localStorageService.get("game")){
+			var game = localStorageService.get("game");
+			$scope.rounds = game.rounds;
+			$scope.turn = game.turn;
+		}else{
+			$scope.rounds=[];
+			$scope.turn = 0;
+			updateLocalStorage();
+		}
+	}
+
+	var updateLocalStorage = function(){
+		localStorageService.set("game",{rounds:$scope.rounds,turn:$scope.turn});
+	}
+
+	$scope.initRound= function(){
+		$scope.updateRoundIndex = -1;
+		$scope.newRoundOpen = false;
+  		$scope.tableOpen = false;
+  		$scope.addScoreOpen=false;  	
+  		$scope.newRound =  { owner:'nous', point:'80', suit:'pique', coinche:''};
+		$scope.score = { owner:'nous', value: '0',belote:''};
+	}
+
+	initGame();
+	$scope.initRound();
+
+	$scope.updateRound = function(roundIndex){
+
+		var r = confirm("Modifier ce round ?");
+		if (r == true) {
+			$scope.updateRoundIndex = roundIndex;
+			var round = $scope.rounds[roundIndex];
+			$scope.newRound =  { owner:round.owner, point:round.contrat, suit:round.suit, coinche:round.coinche};
+			console.log($scope.newRound);
+			$scope.addScoreOpen=true;
+			$scope.tableOpen = false;
+		} 
+	}
+
+	$scope.newGame = function(){
+		var r = confirm("Commencer une nouvelle partie ?");
+		if (r == true) {
+		   $scope.rounds=[];
+		   $scope.turn = 0;
+		   updateLocalStorage();
+		} 
+	}
+	
+	$scope.passe = function(){
+		var r = confirm("Tout le monde passe");
+		if (r == true) {
+		   $scope.changeTurn();
+		   $scope.initRound();
+		} 
+	}
+
+	$scope.changeTurn = function(){
+		if($scope.turn<3){
+			$scope.turn++;
+		}else{
+			$scope.turn=0;
+		}
+		updateLocalStorage();
+	}
 
 	$scope.getTotal = function(owner){
 	    var total = 0;
 	    for(var i = 0; i < $scope.rounds.length; i++){
 	        var round = $scope.rounds[i];
 	        if(owner=="nous"){
-	        	console.log(round);
 	        	total+=round.pointNous;
 	        }else{
 				total+=round.pointEux;
 	        }
 	    }
+
 	    return total;
 	}
 
@@ -52,7 +118,7 @@ myApp.controller('myController', ['$scope', function($scope) { // creating contr
 
 	};
 	$scope.changeScoreByCapot =  function() {$scope.score.value='162'};
-
+	
 	$scope.validateScore=function(){
 		var pointNous=0;
 		var pointEux=0;
@@ -63,8 +129,7 @@ myApp.controller('myController', ['$scope', function($scope) { // creating contr
 		if($scope.score.belote=='nous'){
 			pointNous+=20;
 			beloteNous = 20;
-		}
-		if($scope.score.belote=='vous'){
+		}else{
 			pointEux+=20;
 			beloteEux = 20;
 		}
@@ -98,12 +163,13 @@ myApp.controller('myController', ['$scope', function($scope) { // creating contr
 				
 			}
 		}
+
 		//match with contract
 		if($scope.newRound.owner=="nous"){
 			if(pointNous>=contrat && pointNous>=pointEux){
-				if($scope.newRound.coinche==''){
+				if($scope.newRound.coinche=='' || !$scope.newRound.coinche){
 					pointNous = (Math.round(pointNous / 10) * 10)+contrat;
-					pointEux = (Math.round(pointEux / 10) * 10)
+					pointEux = (Math.round(pointEux / 10) * 10);
 				}else{
 
 					pointEux=beloteEux;
@@ -117,7 +183,7 @@ myApp.controller('myController', ['$scope', function($scope) { // creating contr
 				}
 			}else{
 				pointNous=beloteNous;
-				if($scope.newRound.coinche==''){
+				if($scope.newRound.coinche=='' || !$scope.newRound.coinche){
 					pointEux=160+contrat+beloteEux;
 				}else{
 					if($scope.newRound.coinche=='coinche'){
@@ -131,7 +197,7 @@ myApp.controller('myController', ['$scope', function($scope) { // creating contr
 		}else{
 			//OWNER => EUX
 			if(pointEux>=contrat && pointEux>=pointNous){
-				if($scope.newRound.coinche==''){
+				if($scope.newRound.coinche=='' || !$scope.newRound.coinche ){
 					pointEux = (Math.round(pointEux / 10) * 10)+contrat;
 					pointNous = (Math.round(pointNous / 10) * 10);
 				}else{
@@ -146,7 +212,7 @@ myApp.controller('myController', ['$scope', function($scope) { // creating contr
 				}
 			}else{
 				pointEux=beloteEux;
-				if($scope.newRound.coinche==''){
+				if($scope.newRound.coinche=='' || !$scope.newRound.coinche ){
 					pointNous=160+contrat+beloteNous;
 				}else{
 					if($scope.newRound.coinche=='coinche'){
@@ -161,22 +227,24 @@ myApp.controller('myController', ['$scope', function($scope) { // creating contr
 
 		var r = confirm("Nous : "+pointNous+" - Eux : "+pointEux);
 		if (r == true) {
-		    //addNewRound
-		    $scope.rounds.push({
+			var newRoundTMP = {
 		    	owner:$scope.newRound.owner,
 		    	contrat:$scope.newRound.point,
 		    	suit:$scope.newRound.suit,
+		    	coinche: $scope.newRound.coinche,
 		    	pointNous:pointNous,
 		    	pointEux:pointEux
-		    });
-		    $scope.newRoundOpen = false;
-  			$scope.tableOpen = false;
-  			$scope.addScoreOpen=false;
-  			$scope.newRound =  { owner:'nous', point:'80', suit:'pique', coinche:''};
-			$scope.score = { owner:'nous', value: '0',belote:''};
-			console.log($scope.rounds);
-		} else {
-			//doNothing
+		    };
+
+			if($scope.updateRoundIndex==-1){
+				//addNewRound
+			    $scope.rounds.push(newRoundTMP);
+			}else{
+				$scope.rounds[$scope.updateRoundIndex] = newRoundTMP;
+			}
+		    
+		    $scope.initRound();
+			$scope.changeTurn();
 		}
 	}
 
