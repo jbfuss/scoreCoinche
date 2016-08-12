@@ -1,29 +1,57 @@
 .scores{
 	margin: auto;
 	text-align: center;
-	margin-bottom: 20px;
+	margin-top: 30px;
 }
 
 .total{
 	display: inline-block;
-	width:30%;
+	width:45%;
 	background-color: #eee;
-	height: 150px;
 }
-
+.table{
+    text-align: center;
+}
+.table.table-striped thead tr th {
+    border: none;
+    font-size: 12px;
+    text-align: center;
+}
 .score{
-	padding: 15px;
+    padding: 15px;
     font-size: 35px;
-    margin: 10px;
-    color:white;
+    margin: 5px;
+    color: white;
 }
-
+.openPanelBTN{
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-size: 30px;
+    color: white;
+    background: #337ab7;
+    border-radius: 50%;
+    /* line-height: 44px; */
+    height: 40px;
+    width: 40px;
+    text-align: center;
+    line-height: 25px;
+}
+.openPanelBTN:hover{
+    color:white;
+    text-decoration: none;
+}
 .score.red{
 	background: #d9534f;
 }
 
 .score.green{
 	background: #5cb85c;
+}
+
+.contrat{
+    padding: 8px;
+    font-size: 11px;
 }
 
 #roundForm{
@@ -41,7 +69,7 @@
     width: 70%;
     z-index: 1;
     margin: auto;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     border-radius: 0px;
 
 }
@@ -51,6 +79,7 @@
     width:100%;
 }
 #selectNewRound{
+    height: 75%;
 	background: none;
     border: none;
     width: 15%;
@@ -70,9 +99,10 @@ textarea:focus {
 	height: 30px;
 }
 span.optionSuit {
-    height: 20px;
-    width: 20px;
+    height: 10px;
+    width: 10px;
     display: inline-block;
+    background-size: 10px;
 }
 .optionSuit{
     background-size: 20px;
@@ -109,12 +139,19 @@ span.optionSuit {
 	color:white;
 }
 pageslide{
-	background: white
+	background: white;
+    border-left: 2px solid #ddd;    
 }
 #keyboard button.btn.btn-lg{
     width: 100%;
     border-radius: 0;
-    padding:14px 16px;
+    padding: 9px 16px;
+    font-size: 15px;
+    border-bottom: none;
+    border-right: none;
+}
+#keyboard button.btn.btn-lg.border-bottom{
+    border-bottom: 1px solid #ccc;
 }
 #keyboard .row .col-xs-4.col-sm-4,#keyboard .row .col-xs-6.col-sm-6{
     padding-right: 0;
@@ -132,6 +169,8 @@ pageslide{
     position: absolute;
     bottom:0;
     background: white;
+    height: 50%;    
+    width:100%;
 }
 #scoreScreen{
     position: relative;
@@ -160,4 +199,37 @@ button.btn.btn-lg.selected{
 .header{
     background: white;
     padding: 15px;
+}
+.turn div{
+    text-align: center;
+    padding: 15px;
+    position: relative;
+}
+
+.turn .west, .turn .est,.turn .center{
+    display: inline-block;
+    width: 32%;
+    padding-left: 0;
+    padding-right: 0;
+}
+.turn .center img {
+    width: 40px;
+}
+.turn .west{
+    text-align: right;
+}
+
+.turn .est{
+    text-align: left;
+}
+
+.puce {
+    display: inline-block;
+    background: #337ab7;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    top: 12px;
+    margin-left: 2px;
+    border-radius: 50%;
 }

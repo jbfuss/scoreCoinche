@@ -14,12 +14,13 @@
   </head>
   <body>
   	<div ng-controller="myController">
+
   		<div id="details-screen" ng-show="!addScoreOpen">
-			<a ng-click="tableOpen = !tableOpen" type="button">...</a>
+			<a ng-click="tableOpen = !tableOpen" type="button" class="openPanelBTN">...</a>
 			<div ng-include="template.url"></div>
 		    <pageslide ps-open="tableOpen">
 	            <div class="table-responsive"> 
-					<table class="table table-bordered table-striped">
+					<table class="table table-striped">
 						<thead> 
 							<tr> 
 								<th> Contrat </th> 
@@ -60,6 +61,14 @@
 				</div>
 			</div>
 
+			<div class="turn">
+				<div class="north"><span>Nord</span></div>
+				<div class="west"><span>Ouest</span></div>
+				<div class="center"><img src="img/refresh.png"/></div>
+				<div class="est"><span>Est</span></div>
+				<div class="sud"><span>Sud <br/>(Moi)</span><span class="puce"></span></div>
+			</div>
+
 			<div id="newRoundBtnContainer" class="center-block">
 				<button id="newRoundBtn" ng-click="newRoundOpen = !newRoundOpen" type="button" class="btn btn-primary btn-lg btn-block">Nouvelle manche</button> 
 			</div>
@@ -75,7 +84,7 @@
 						  <option value="nous">Nous</option>
 						  <option value="vous">Eux</option>
 						</select>
-						<select ng-model="newRound.point" id="selectNewRound" class="form-control" size="7" style="width:25%">
+						<select ng-model="newRound.point" id="selectNewRound" class="form-control" size="7" style="width:20%">
 						  <option>80</option>
 						  <option>90</option>
 						  <option>100</option>
@@ -89,14 +98,14 @@
 						  <option>180</option>
 						  <option value="250">Capot</option>
 						</select>
-						<select ng-model="newRound.suit" id="selectNewRound" class="form-control" size="4" style="width:15%">
-						  <option value="pique" class="optionSuit pique"></option>
-						  <option value="coeur" class="optionSuit coeur"></option>
-						  <option value="trefle" class="optionSuit trefle"></option>
-						  <option value="carreau" class="optionSuit carreau"></option>
+						<select ng-model="newRound.suit" id="selectNewRound" class="form-control" size="4" style="width:20%">
+						  <option value="pique" class="optionSuit">Pique</option>
+						  <option value="coeur" class="optionSuit">Coeur</option>
+						  <option value="trefle" class="optionSuit">Trefle</option>
+						  <option value="carreau" class="optionSuit">Carreau</option>
 						</select>
 						<select ng-model="newRound.coinche" id="selectNewRound" class="form-control" size="3" style="width:35%">
-						  <option></option>
+						  <option value="">Nada</option>
 						  <option value="coinche">Coinché</option>
 						  <option value="surcoinche">Surcoinché</option>
 						</select>
@@ -130,7 +139,7 @@
 			<div id="keyboard">
 				<div class="row">
 					<div class="col-xs-12 col-sm-12">
-						<div class="padding-15 text-center">
+						<div class="contrat text-center">
 							{{newRound.owner}} - {{newRound.point}}  <span class="optionSuit {{newRound.suit}}"> </span>  {{newRound.coinche}}
 						</div>
 					</div>
@@ -174,13 +183,13 @@
   				    	<button class="btn btn-default btn-lg" type="button" ng-click="changeScoreValue(9)">9</button>
 			    	</div>
   				    <div class="col-xs-4 col-sm-4">
-  				    	<button class="btn btn-default btn-lg" type="button" ng-click="changeScoreByCapot()">Capot</button>
+  				    	<button class="btn btn-default btn-lg border-bottom" type="button" ng-click="changeScoreByCapot()">Capot</button>
 			    	</div>
   				    <div class="col-xs-4 col-sm-4">
-  				    	<button class="btn btn-default btn-lg" type="button" ng-click="changeScoreValue(0)">0</button>
+  				    	<button class="btn btn-default btn-lg border-bottom" type="button" ng-click="changeScoreValue(0)">0</button>
 			    	</div>
   				    <div class="col-xs-4 col-sm-4">
-  				    	<button class="btn btn-default btn-lg" type="button" ng-click="deleteScore(0)">Effacer</button>
+  				    	<button class="btn btn-default btn-lg border-bottom" type="button" ng-click="deleteScore(0)">Effacer</button>
 			    	</div>
 				</div>
 			<div>
